@@ -11,9 +11,9 @@ IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = 'SuperheroesDB'
 BEGIN
 	DROP DATABASE [SuperheroesDB]
 END
+GO
 
 -- Create database
-
 CREATE DATABASE [SuperheroesDB]
 GO
 
