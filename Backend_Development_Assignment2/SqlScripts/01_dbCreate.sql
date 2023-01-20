@@ -9,10 +9,10 @@
 -- Drop database if exists
 IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = 'SuperheroesDB')
 BEGIN
-	DROP DATABASE SuperheroesDB
+	DROP DATABASE [SuperheroesDB]
 END
 
 -- Create database
 
-CREATE DATABASE SuperheroesDB;
+CREATE DATABASE [SuperheroesDB]
 GO
