@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="SqlScripts\01_dbCreate.sql" />
+    <Content Include="SqlScripts\02_tableCreate.sql" />
     <Content Include="SqlScripts\Chinook_SqlServer_AutoIncrementPKs.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
