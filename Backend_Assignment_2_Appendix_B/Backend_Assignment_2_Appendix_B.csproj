@@ -180,8 +180,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\CustomerRepository.cs" />
+    <Compile Include="DataAccess\ICustomerRepository.cs" />
     <Compile Include="DataAccess\SqlHelper.cs" />
     <Compile Include="Model\Customer.cs" />
+    <Compile Include="Model\CustomerCountry.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 
-namespace LessionTasks.Lession8
+namespace Backend_Assignment_2_Appendix_B.DataAccess
 {
     internal class SqlHelper
     {

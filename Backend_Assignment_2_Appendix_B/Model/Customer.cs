@@ -16,6 +16,10 @@ namespace Backend_Assignment_2_Appendix_B.Model
         public string Phone { get; set; }
         public string Email { get; set; }
 
-
+        public override string ToString()
+        {
+            return $"Id: {CustomerId}, Name: {FirstName} {LastName}, " +
+                $"Address: {Country} {PostalCode}, Phone: {Phone}, Email: {Email}";
+        }
     }
 }
