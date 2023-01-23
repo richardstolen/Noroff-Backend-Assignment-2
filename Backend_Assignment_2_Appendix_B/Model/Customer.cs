@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Backend_Assignment_2_Appendix_B.Model
 {
-    internal class Customer
+    public class Customer
     {
         public int CustomerId { get; set; }
         public string FirstName { get; set; }

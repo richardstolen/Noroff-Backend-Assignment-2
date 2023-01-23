@@ -11,6 +11,10 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
 {
     internal class CustomerRepository : ICustomerRepository
     {
+        /// <summary>
+        /// Method to get all customers in the database
+        /// </summary>
+        /// <returns>List of customers</returns>
         public List<Customer> GetAllCustomers()
         {
             List<Customer> customers = new List<Customer>();
@@ -32,6 +36,8 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                             {
                                 try
                                 {
+                                    // Using helper method to select what columns to add
+                                    // Helper method reads from database and returns a Customer object
                                     Customer temp = SqlHelper.getCustomerWithSpecificColumns(reader);
 
                                     customers.Add(temp);
@@ -53,6 +59,11 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
             return customers;
         }
 
+        /// <summary>
+        /// Get Customer with given ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>A Customer object</returns>
         public Customer GetCustomer(int id)
         {
             Customer customer = new Customer();
@@ -75,6 +86,8 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                             {
                                 try
                                 {
+                                    // Using helper method to select what columns to add
+                                    // Helper method reads from database and return a Customer object
                                     customer = SqlHelper.getCustomerWithSpecificColumns(reader);
                                 }
                                 catch (Exception e)
@@ -96,6 +109,12 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
             return customer;
         }
 
+        /// <summary>
+        /// Method to get a customer with name. 
+        /// Also returns partial matches
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>List of customers that match the input</returns>
         public List<Customer> GetCustomer(string name)
         {
             List<Customer> customers = new List<Customer>();
@@ -120,6 +139,8 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                             {
                                 try
                                 {
+                                    // Using helper method to select what columns to add
+                                    // Helper method reads from database and return a Customer object
                                     Customer temp = SqlHelper.getCustomerWithSpecificColumns(reader);
                                     customers.Add(temp);
                                 }
@@ -140,6 +161,12 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
             return customers;
         }
 
+        /// <summary>
+        /// Method to get a subset of customers wth offset and limit.
+        /// </summary>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        /// <returns>List of customers</returns>
         public List<Customer> GetCustomerPage(int offset, int limit)
         {
             List<Customer> customers = new List<Customer>();
@@ -167,6 +194,8 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                             {
                                 try
                                 {
+                                    // Using helper method to select what columns to add
+                                    // Helper method reads from database and return a Customer object
                                     Customer temp = SqlHelper.getCustomerWithSpecificColumns(reader);
                                     customers.Add(temp);
                                 }
@@ -187,6 +216,11 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
             return customers;
         }
 
+        /// <summary>
+        /// Adds a customer to the database
+        /// </summary>
+        /// <param name="customer"></param>
+        /// <returns></returns>
         public bool AddCustomer(Customer customer)
         {
             bool success = false;
@@ -237,6 +271,12 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
             return success;
         }
 
+        /// <summary>
+        /// Updates an existing customer.
+        /// </summary>
+        /// <param name="existingName"></param>
+        /// <param name="customer"></param>
+        /// <returns></returns>
         public bool UpdateCustomer(string existingName, Customer customer)
         {
             bool success = false;
@@ -288,6 +328,58 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                 }
             }
             return success;
+        }
+
+        /// <summary>
+        /// Returns number of customers in each country, ordered descending
+        /// </summary>
+        /// <returns>List of CustomerCountry objects</returns>
+        public List<CustomerCountry> GetNumberOfCustomersInCountry()
+        {
+            List<CustomerCountry> countries = new List<CustomerCountry>();
+
+            string sql =
+                "SELECT [Country], COUNT(*) AS 'NumberOfCustomers'" +
+                "FROM [Customer]" +
+                "GROUP BY [Country]";
+
+            using (SqlConnection conn = new SqlConnection(SqlHelper.connectionString()))
+            {
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    try
+                    {
+                        conn.Open();
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                try
+                                {
+                                    // Using helper method to select what columns to add
+                                    // Helper method reads from database and return a Customer object
+                                    CustomerCountry temp = new CustomerCountry();
+
+                                    temp.Country = reader.IsDBNull(0) ? "null" : reader.GetString(0);
+                                    temp.NumberOfCustomers = reader.IsDBNull(1) ? -1 : reader.GetInt32(1);
+                                    countries.Add(temp);
+                                }
+                                catch (Exception e)
+                                {
+                                    Console.WriteLine(e.Message);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+            }
+
+            return countries.OrderByDescending(x => x.NumberOfCustomers).ToList();
         }
     }
 }

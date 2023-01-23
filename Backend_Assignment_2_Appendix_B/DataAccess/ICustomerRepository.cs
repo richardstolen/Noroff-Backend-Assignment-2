@@ -15,5 +15,6 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
         List<Customer> GetCustomerPage(int limit, int offset);
         bool AddCustomer(Customer customer);
         bool UpdateCustomer(string existingName, Customer customer);
+        List<CustomerCountry> GetNumberOfCustomersInCountry();
     }
 }
