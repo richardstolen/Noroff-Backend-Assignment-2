@@ -1,5 +1,4 @@
-﻿
-using Backend_Assignment_2_Appendix_B.Model;
+﻿using Backend_Assignment_2_Appendix_B.Model;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -101,14 +100,15 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
         {
             List<Customer> customers = new List<Customer>();
 
-            string sql = "SELECT * FROM [Customer]" +
-                "WHERE FirstName LIKE '%' + @name + '%' OR LastName LIKE '%' + @name + '%'";
+            string sql =
+                "SELECT * FROM [Customer]" +
+                "WHERE FirstName + ' ' + LastName LIKE '%' + @Name + '%'";
 
             using (SqlConnection conn = new SqlConnection(SqlHelper.connectionString()))
             {
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
-                    cmd.Parameters.AddWithValue("name", name);
+                    cmd.Parameters.AddWithValue("Name", name);
 
                     try
                     {
@@ -144,8 +144,11 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
         {
             List<Customer> customers = new List<Customer>();
 
-            string sql = "SELECT * FROM [Customer] ORDER BY [CustomerId]" +
-                "OFFSET @Offset ROWS FETCH NEXT @Limit ROWS ONLY";
+            string sql =
+                "SELECT * FROM [Customer] " +
+                "ORDER BY [CustomerId]" +
+                "OFFSET @Offset ROWS " +
+                "FETCH NEXT @Limit ROWS ONLY";
 
             using (SqlConnection conn = new SqlConnection(SqlHelper.connectionString()))
             {
@@ -184,6 +187,56 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
             return customers;
         }
 
+        public bool AddCustomer(Customer customer)
+        {
+            bool success = false;
+
+            string fullname = customer.FirstName + " " + customer.LastName;
+            List<Customer> checkIfExists = GetCustomer(fullname);
+
+            if (checkIfExists.Count > 0)
+            {
+                Console.WriteLine("Customer already exists!");
+                return false;
+            }
+
+            string sql =
+                "INSERT INTO [Customer] (FirstName, LastName, Country, PostalCode, Phone, Email)" +
+                "VALUES (@FirstName, @LastName, @Country, @PostalCode, @Phone, @Email)";
+
+            using (SqlConnection conn = new SqlConnection(SqlHelper.connectionString()))
+            {
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("FirstName", customer.FirstName);
+                    cmd.Parameters.AddWithValue("LastName", customer.LastName);
+                    cmd.Parameters.AddWithValue("Country", customer.Country);
+                    cmd.Parameters.AddWithValue("PostalCode", customer.PostalCode);
+                    cmd.Parameters.AddWithValue("Phone", customer.Phone);
+                    cmd.Parameters.AddWithValue("Email", customer.Email);
+
+                    try
+                    {
+                        conn.Open();
+
+                        int affectedRows = cmd.ExecuteNonQuery();
+
+                        if (affectedRows > 0)
+                        {
+                            success = true;
+                            Console.WriteLine($"Success, {affectedRows} rows affected");
+                        }
+
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+            }
+            return success;
+        }
+
 
         public static Customer getCustomerWithSpecificColumns(SqlDataReader reader)
         {
@@ -199,5 +252,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
 
             return customer;
         }
+
+
     }
 }

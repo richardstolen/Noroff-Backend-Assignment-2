@@ -14,11 +14,21 @@ namespace Backend_Assignment_2_Appendix_B
         {
             ICustomerRepository repo = new CustomerRepository();
 
-            List<Customer> customers = repo.GetAllCustomers();
+            Customer customer = new Customer();
+            customer.FirstName = "Richard";
+            customer.LastName = "Stolen";
+            customer.Country = "Norway";
+            customer.PostalCode = "5018";
+            customer.Phone = "99340437";
+            customer.Email = "richlones@hotmail.com";
+
+            repo.AddCustomer(customer);
+
+            List<Customer> customers = repo.GetCustomer("Rober");
 
             customers.ForEach(x => Console.WriteLine(x));
 
-            //Console.WriteLine(repo.GetCustomer(2));
+            //Console.WriteLine(repo.GetCustomer("Robert"));
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
         List<Customer> GetAllCustomers();
         Customer GetCustomer(int id);
         List<Customer> GetCustomer(string name);
-
         List<Customer> GetCustomerPage(int limit, int offset);
+        bool AddCustomer(Customer customer);
     }
 }
