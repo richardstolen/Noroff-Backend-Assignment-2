@@ -11,7 +11,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
     {
         List<Customer> GetAllCustomers();
         Customer GetCustomer(int id);
-        Customer GetCustomer(string name);
+        List<Customer> GetCustomer(string name);
 
 
     }
