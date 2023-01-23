@@ -100,7 +100,6 @@ GO
 	Appendix A: 4)
 	Create a script that contains a statement
 	for inserting new Superheroes into the database
-	
 *********************************************************************************************************/
 
 
@@ -116,7 +115,6 @@ GO
 	Appendix A: 4)
 	Create a script that contains a statement
 	for inserting new Assistants into the database
-	
 *********************************************************************************************************/
 
 -- Inserting new Assistants
@@ -131,7 +129,6 @@ GO
 	Appendix A: 4)
 	Create a script that contains a statement
 	for inserting new Powers into the database
-	
 *********************************************************************************************************/
 
 -- Inserting new Assistants
@@ -147,7 +144,6 @@ GO
 	Appendix A: 5)
 	Create a script that contains a statement
 	for updating a Superheroes name
-	
 *********************************************************************************************************/
 
 -- Updates superhero with id 1 - Spider man
@@ -161,7 +157,6 @@ GO
 	Appendix A: 6)
 	Create a script that contains a statement
 	for deleting a assistant
-	
 *********************************************************************************************************/
 
 -- Delete assistant

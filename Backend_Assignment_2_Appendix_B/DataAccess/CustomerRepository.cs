@@ -32,7 +32,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                             {
                                 try
                                 {
-                                    Customer temp = getCustomerWithSpecificColumns(reader);
+                                    Customer temp = SqlHelper.getCustomerWithSpecificColumns(reader);
 
                                     customers.Add(temp);
                                 }
@@ -57,7 +57,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
         {
             Customer customer = new Customer();
 
-            string sql = "SELECT * FROM [Customer] WHERE CustomerId=@Id";
+            string sql = "SELECT * FROM [Customer] WHERE [CustomerId]=@Id";
 
             using (SqlConnection conn = new SqlConnection(SqlHelper.connectionString()))
             {
@@ -75,7 +75,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                             {
                                 try
                                 {
-                                    customer = getCustomerWithSpecificColumns(reader);
+                                    customer = SqlHelper.getCustomerWithSpecificColumns(reader);
                                 }
                                 catch (Exception e)
                                 {
@@ -102,7 +102,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
 
             string sql =
                 "SELECT * FROM [Customer]" +
-                "WHERE FirstName + ' ' + LastName LIKE '%' + @Name + '%'";
+                "WHERE [FirstName] + ' ' + [LastName] LIKE '%' + @Name + '%'";
 
             using (SqlConnection conn = new SqlConnection(SqlHelper.connectionString()))
             {
@@ -120,7 +120,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                             {
                                 try
                                 {
-                                    Customer temp = getCustomerWithSpecificColumns(reader);
+                                    Customer temp = SqlHelper.getCustomerWithSpecificColumns(reader);
                                     customers.Add(temp);
                                 }
                                 catch (Exception e)
@@ -167,7 +167,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                             {
                                 try
                                 {
-                                    Customer temp = getCustomerWithSpecificColumns(reader);
+                                    Customer temp = SqlHelper.getCustomerWithSpecificColumns(reader);
                                     customers.Add(temp);
                                 }
                                 catch (Exception e)
@@ -201,7 +201,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
             }
 
             string sql =
-                "INSERT INTO [Customer] (FirstName, LastName, Country, PostalCode, Phone, Email)" +
+                "INSERT INTO [Customer] ([FirstName], [LastName], [Country], [PostalCode], [Phone], [Email])" +
                 "VALUES (@FirstName, @LastName, @Country, @PostalCode, @Phone, @Email)";
 
             using (SqlConnection conn = new SqlConnection(SqlHelper.connectionString()))
@@ -237,22 +237,57 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
             return success;
         }
 
-
-        public static Customer getCustomerWithSpecificColumns(SqlDataReader reader)
+        public bool UpdateCustomer(string existingName, Customer customer)
         {
-            Customer customer = new Customer();
+            bool success = false;
 
-            customer.CustomerId = reader.GetInt32(0);
-            customer.FirstName = reader.IsDBNull(1) ? "null" : reader.GetString(1);
-            customer.LastName = reader.IsDBNull(2) ? "null" : reader.GetString(2);
-            customer.Country = reader.IsDBNull(7) ? "null" : reader.GetString(7);
-            customer.PostalCode = reader.IsDBNull(8) ? "null" : reader.GetString(8);
-            customer.Phone = reader.IsDBNull(9) ? "null" : reader.GetString(9);
-            customer.Email = reader.IsDBNull(11) ? "null" : reader.GetString(11);
 
-            return customer;
+            List<Customer> checkIfExists = GetCustomer(existingName);
+
+            if (checkIfExists.Count == 0)
+            {
+                Console.WriteLine("Customer does not exist!");
+                return false;
+            }
+
+            string sql =
+                "UPDATE [Customer] " +
+                "SET [FirstName]=@FirstName, [LastName]=@LastName, [Country]=@Country, " +
+                "[PostalCode]=@PostalCode, [Phone]=@Phone, [Email]=@Email " +
+                "WHERE [FirstName] + ' ' + [LastName] = @ExistingName";
+
+            using (SqlConnection conn = new SqlConnection(SqlHelper.connectionString()))
+            {
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("ExistingName", existingName);
+                    cmd.Parameters.AddWithValue("FirstName", customer.FirstName);
+                    cmd.Parameters.AddWithValue("LastName", customer.LastName);
+                    cmd.Parameters.AddWithValue("Country", customer.Country);
+                    cmd.Parameters.AddWithValue("PostalCode", customer.PostalCode);
+                    cmd.Parameters.AddWithValue("Phone", customer.Phone);
+                    cmd.Parameters.AddWithValue("Email", customer.Email);
+
+                    try
+                    {
+                        conn.Open();
+
+                        int affectedRows = cmd.ExecuteNonQuery();
+
+                        if (affectedRows > 0)
+                        {
+                            success = true;
+                            Console.WriteLine($"Success, {affectedRows} rows affected");
+                        }
+
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+            }
+            return success;
         }
-
-
     }
 }

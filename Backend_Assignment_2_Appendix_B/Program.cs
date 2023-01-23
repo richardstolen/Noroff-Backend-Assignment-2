@@ -15,16 +15,18 @@ namespace Backend_Assignment_2_Appendix_B
             ICustomerRepository repo = new CustomerRepository();
 
             Customer customer = new Customer();
-            customer.FirstName = "Richard";
-            customer.LastName = "Stolen";
+            customer.FirstName = "Per";
+            customer.LastName = "Persen";
             customer.Country = "Norway";
             customer.PostalCode = "5018";
             customer.Phone = "99340437";
             customer.Email = "richlones@hotmail.com";
 
-            repo.AddCustomer(customer);
+            //repo.AddCustomer(customer);
 
-            List<Customer> customers = repo.GetCustomer("Rober");
+            repo.UpdateCustomer("Per Persen", customer);
+
+            List<Customer> customers = repo.GetAllCustomers();
 
             customers.ForEach(x => Console.WriteLine(x));
 
