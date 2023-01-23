@@ -7,7 +7,7 @@
 *********************************************************************************************************/
 
 USE SuperheroesDB;
-GO
+
 
 -- Inserting new Assistants
 INSERT INTO [Power] ([Name], [Description]) VALUES 
@@ -15,5 +15,5 @@ INSERT INTO [Power] ([Name], [Description]) VALUES
 	('Shrink', 'Shrinks to an ant'),
 	('Throw rock', 'Throws rocks'),
 	('Fly', 'Flies in the air');
-GO
+
 

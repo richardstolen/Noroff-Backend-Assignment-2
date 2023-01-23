@@ -10,17 +10,17 @@
 *******************************************************************************/
 
 USE SuperheroesDB;
-GO
+
 
 -- Add SuperheroId column
 ALTER TABLE [Assistant]
 ADD [SuperheroId] INT
-GO
+
 
 -- Create foreign key, linking [Assistant].[SuperheroId] with [Superhero].[Id]
 ALTER TABLE [Assistant]
 ADD CONSTRAINT FK_Superhero
 FOREIGN KEY ([SuperheroId]) REFERENCES [Superhero]([Id])
-GO
+
 
 

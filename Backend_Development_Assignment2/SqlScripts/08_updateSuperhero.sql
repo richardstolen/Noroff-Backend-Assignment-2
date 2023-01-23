@@ -7,11 +7,11 @@
 *********************************************************************************************************/
 
 USE SuperheroesDB;
-GO
+
 
 -- Updates superhero with id 1 - Spider man
 UPDATE [Superhero]
 SET [Name] = 'Peter Parker'
 WHERE [Id] = 1;
-GO
+
 

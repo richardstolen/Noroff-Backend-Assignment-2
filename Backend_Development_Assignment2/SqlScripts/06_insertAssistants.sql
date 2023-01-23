@@ -7,12 +7,12 @@
 *********************************************************************************************************/
 
 USE SuperheroesDB;
-GO
+
 
 -- Inserting new Assistants
 INSERT INTO [Assistant] ([Name], [SuperheroId]) VALUES 
 	('Frank Frankesen', 1),
 	('Katrine Katrinesen', 2),
 	('Petter Pettersen', 3);
-GO
+
 

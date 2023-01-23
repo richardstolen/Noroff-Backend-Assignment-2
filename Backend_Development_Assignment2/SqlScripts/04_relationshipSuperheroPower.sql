@@ -10,7 +10,7 @@
 *********************************************************************************************************/
 
 USE SuperheroesDB;
-GO
+
 
 -- Creating a junction table for many-to-many relationship
 CREATE TABLE [Superhero_Power_Mapping](
@@ -18,5 +18,5 @@ CREATE TABLE [Superhero_Power_Mapping](
 	[PowerId] INT REFERENCES [Power]([Id]),
 	PRIMARY KEY ([SuperheroId], [PowerId])
 );
-GO
+
 
