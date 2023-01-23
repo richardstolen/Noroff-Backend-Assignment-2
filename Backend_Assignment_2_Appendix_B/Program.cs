@@ -14,7 +14,7 @@ namespace Backend_Assignment_2_Appendix_B
         {
             ICustomerRepository repo = new CustomerRepository();
 
-            List<Customer> customers = repo.GetCustomerPage(5, 10);
+            List<Customer> customers = repo.GetAllCustomers();
 
             customers.ForEach(x => Console.WriteLine(x));
 

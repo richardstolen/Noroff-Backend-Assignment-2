@@ -21,7 +21,6 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
             using (SqlConnection conn = new SqlConnection(SqlHelper.connectionString()))
             {
 
-
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     try
@@ -32,18 +31,10 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                         {
                             while (reader.Read())
                             {
-
                                 try
                                 {
+                                    Customer temp = getCustomerWithSpecificColumns(reader);
 
-                                    Customer temp = new Customer();
-                                    temp.CustomerId = reader.GetInt32(0);
-                                    temp.FirstName = reader.GetString(1);
-                                    temp.LastName = reader.GetString(2);
-                                    temp.Country = reader.GetString(7);
-                                    temp.PostalCode = reader.IsDBNull(8) ? "null" : reader.GetString(8);
-                                    temp.Phone = reader.GetString(9);
-                                    temp.Email = reader.GetString(11);
                                     customers.Add(temp);
                                 }
                                 catch (Exception e)
@@ -57,8 +48,6 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                     {
                         Console.WriteLine(e.Message);
                     }
-
-
                 }
             }
 
@@ -87,13 +76,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                             {
                                 try
                                 {
-                                    customer.CustomerId = reader.GetInt32(0);
-                                    customer.FirstName = reader.GetString(1);
-                                    customer.LastName = reader.GetString(2);
-                                    customer.Country = reader.GetString(7);
-                                    customer.PostalCode = reader.GetString(8);
-                                    customer.Phone = reader.GetString(9);
-                                    customer.Email = reader.GetString(11);
+                                    customer = getCustomerWithSpecificColumns(reader);
                                 }
                                 catch (Exception e)
                                 {
@@ -137,14 +120,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                             {
                                 try
                                 {
-                                    Customer temp = new Customer();
-                                    temp.CustomerId = reader.GetInt32(0);
-                                    temp.FirstName = reader.GetString(1);
-                                    temp.LastName = reader.GetString(2);
-                                    temp.Country = reader.GetString(7);
-                                    temp.PostalCode = reader.GetString(8);
-                                    temp.Phone = reader.GetString(9);
-                                    temp.Email = reader.GetString(11);
+                                    Customer temp = getCustomerWithSpecificColumns(reader);
                                     customers.Add(temp);
                                 }
                                 catch (Exception e)
@@ -188,14 +164,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                             {
                                 try
                                 {
-                                    Customer temp = new Customer();
-                                    temp.CustomerId = reader.GetInt32(0);
-                                    temp.FirstName = reader.GetString(1);
-                                    temp.LastName = reader.GetString(2);
-                                    temp.Country = reader.GetString(7);
-                                    temp.PostalCode = reader.GetString(8);
-                                    temp.Phone = reader.GetString(9);
-                                    temp.Email = reader.GetString(11);
+                                    Customer temp = getCustomerWithSpecificColumns(reader);
                                     customers.Add(temp);
                                 }
                                 catch (Exception e)
@@ -213,6 +182,22 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
             }
 
             return customers;
+        }
+
+
+        public static Customer getCustomerWithSpecificColumns(SqlDataReader reader)
+        {
+            Customer customer = new Customer();
+
+            customer.CustomerId = reader.GetInt32(0);
+            customer.FirstName = reader.IsDBNull(1) ? "null" : reader.GetString(1);
+            customer.LastName = reader.IsDBNull(2) ? "null" : reader.GetString(2);
+            customer.Country = reader.IsDBNull(7) ? "null" : reader.GetString(7);
+            customer.PostalCode = reader.IsDBNull(8) ? "null" : reader.GetString(8);
+            customer.Phone = reader.IsDBNull(9) ? "null" : reader.GetString(9);
+            customer.Email = reader.IsDBNull(11) ? "null" : reader.GetString(11);
+
+            return customer;
         }
     }
 }
