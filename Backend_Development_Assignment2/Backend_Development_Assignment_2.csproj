@@ -56,6 +56,7 @@
     <Content Include="SqlScripts\04_relationshipSuperheroPower.sql" />
     <Content Include="SqlScripts\05_insertSuperheroes.sql" />
     <Content Include="SqlScripts\06_insertAssistants.sql" />
+    <Content Include="SqlScripts\07_powers.sql" />
     <Content Include="SqlScripts\Chinook_SqlServer_AutoIncrementPKs.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
