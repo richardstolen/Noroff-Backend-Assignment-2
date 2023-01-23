@@ -9,7 +9,7 @@
 USE SuperheroesDB;
 
 
--- Updates superhero with id 1 - Spider man
+-- Delete assistant
 DELETE FROM [Assistant]
 WHERE [Name] = 'Petter Pettersen';
 

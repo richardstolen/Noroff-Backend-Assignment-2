@@ -50,6 +50,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="SqlScripts\10_completeScript.sql" />
     <Content Include="SqlScripts\01_dbCreate.sql" />
     <Content Include="SqlScripts\02_tableCreate.sql" />
     <Content Include="SqlScripts\03_relationshipSuperheroAssistant.sql" />
