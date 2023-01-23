@@ -32,14 +32,16 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                         {
                             while (reader.Read())
                             {
+
                                 try
                                 {
+
                                     Customer temp = new Customer();
                                     temp.CustomerId = reader.GetInt32(0);
                                     temp.FirstName = reader.GetString(1);
                                     temp.LastName = reader.GetString(2);
                                     temp.Country = reader.GetString(7);
-                                    temp.PostalCode = reader.GetString(8);
+                                    temp.PostalCode = reader.IsDBNull(8) ? "null" : reader.GetString(8);
                                     temp.Phone = reader.GetString(9);
                                     temp.Email = reader.GetString(11);
                                     customers.Add(temp);
@@ -123,7 +125,58 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
             {
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
-                    cmd.Parameters.AddWithValue("Name", name);
+                    cmd.Parameters.AddWithValue("name", name);
+
+                    try
+                    {
+                        conn.Open();
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                try
+                                {
+                                    Customer temp = new Customer();
+                                    temp.CustomerId = reader.GetInt32(0);
+                                    temp.FirstName = reader.GetString(1);
+                                    temp.LastName = reader.GetString(2);
+                                    temp.Country = reader.GetString(7);
+                                    temp.PostalCode = reader.GetString(8);
+                                    temp.Phone = reader.GetString(9);
+                                    temp.Email = reader.GetString(11);
+                                    customers.Add(temp);
+                                }
+                                catch (Exception e)
+                                {
+                                    Console.WriteLine(e.Message);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+            }
+
+            return customers;
+        }
+
+        public List<Customer> GetCustomerPage(int offset, int limit)
+        {
+            List<Customer> customers = new List<Customer>();
+
+            string sql = "SELECT * FROM [Customer] ORDER BY [CustomerId]" +
+                "OFFSET @Offset ROWS FETCH NEXT @Limit ROWS ONLY";
+
+            using (SqlConnection conn = new SqlConnection(SqlHelper.connectionString()))
+            {
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("Offset", offset);
+                    cmd.Parameters.AddWithValue("Limit", limit);
 
                     try
                     {

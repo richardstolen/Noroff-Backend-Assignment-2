@@ -13,6 +13,6 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
         Customer GetCustomer(int id);
         List<Customer> GetCustomer(string name);
 
-
+        List<Customer> GetCustomerPage(int limit, int offset);
     }
 }
