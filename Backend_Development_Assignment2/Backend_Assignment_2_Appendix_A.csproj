@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{43EA08F4-5597-4634-8B1D-0A8B812DB50E}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Backend_Development_Assignment2</RootNamespace>
-    <AssemblyName>Backend_Development_Assignment2</AssemblyName>
+    <RootNamespace>Backend_Assignment_2_Appendix_A</RootNamespace>
+    <AssemblyName>Backend_Assignment_2_Appendix_A</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -31,6 +31,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
