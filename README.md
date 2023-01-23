@@ -14,10 +14,10 @@ the SQL Client library, and create a repository to interact with the database.
 NOTE: These requirements are separate from Appendix A.
 2) Customer requirements
 For customers in the database, the following functionality should be catered for:
-1. [ ] Read all the customers in the database, this should display their: Id, first name, last name, country, postalcode, phone number and email.
-2. [ ] Read a specific customer from the database (by Id), should display everything listed in the above point.
-3. [ ] Read a specific customer by name. HINT: LIKE keyword can help for partial matches.
-4. [ ] Return a page of customers from the database. This should take in limit and offset as parameters and make use
+1. [x] Read all the customers in the database, this should display their: Id, first name, last name, country, postalcode, phone number and email.
+2. [x] Read a specific customer from the database (by Id), should display everything listed in the above point.
+3. [x] Read a specific customer by name. HINT: LIKE keyword can help for partial matches.
+4. [x] Return a page of customers from the database. This should take in limit and offset as parameters and make use
 of the SQL limit and offset keywords to get a subset of the customer data. The customer model from above
 should be reused.
 5. [ ] Add a new customer to the database. You also need to add only the fields listed above (our customer object)
