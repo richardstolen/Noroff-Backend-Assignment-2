@@ -51,7 +51,6 @@ namespace Backend_Development_Assignment2
                     Console.WriteLine("Error in file: " + file);
                     Console.WriteLine(e);
                 }
-
             }
         }
     }
