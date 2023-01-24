@@ -381,5 +381,59 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
 
             return countries.OrderByDescending(x => x.NumberOfCustomers).ToList();
         }
-    }
+
+        /// <summary>
+        /// A method to get the highest spenders (total in invoice table).
+        /// Ordered descending
+        /// </summary>
+        /// <returns>List of CustomerSpender objects</returns>
+        public List<CustomerSpender> GetHighestSpenders()
+        {
+            List<CustomerSpender> spenders = new List<CustomerSpender>();
+
+            string sql =
+                "SELECT [Customer].[CustomerId], Sum([Invoice].[Total]) AS 'Total'" +
+                "FROM [Invoice] " +
+                "INNER JOIN [Customer] ON [Invoice].[CustomerId] = [Customer].[CustomerID]" +
+                "GROUP BY Customer.CustomerId";
+
+            using (SqlConnection conn = new SqlConnection(SqlHelper.ConnectionString()))
+            {
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    try
+                    {
+                        conn.Open();
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                try
+                                {
+                                    // Using helper method to select what columns to add
+                                    // Helper method reads from database and return a Customer object
+                                    CustomerSpender temp = new CustomerSpender();
+
+                                    temp.Customer = GetCustomer(reader.IsDBNull(0) ? -1 : reader.GetInt32(0));
+                                    temp.Total = reader.IsDBNull(1) ? new Decimal(-1) : reader.GetDecimal(1);
+                                    spenders.Add(temp);
+                                }
+                                catch (Exception e)
+                                {
+                                    Console.WriteLine(e.Message);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+            }
+
+            return spenders.OrderByDescending(x => x.Total).ToList();
+        }
+    } // Class
 }

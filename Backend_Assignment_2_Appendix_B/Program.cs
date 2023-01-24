@@ -32,8 +32,11 @@ namespace Backend_Assignment_2_Appendix_B
 
             //Console.WriteLine(repo.GetCustomer("Robert"));
 
-            List<CustomerCountry> countries = repo.GetNumberOfCustomersInCountry();
-            countries.ForEach(country => Console.WriteLine(country));
+            //List<CustomerCountry> countries = repo.GetNumberOfCustomersInCountry();
+            //countries.ForEach(country => Console.WriteLine(country));
+
+            List<CustomerSpender> spenders = repo.GetHighestSpenders();
+            spenders.ForEach(spender => Console.WriteLine(spender));
         }
     }
 }

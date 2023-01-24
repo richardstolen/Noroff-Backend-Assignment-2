@@ -16,5 +16,6 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
         bool AddCustomer(Customer customer);
         bool UpdateCustomer(string existingName, Customer customer);
         List<CustomerCountry> GetNumberOfCustomersInCountry();
+        List<CustomerSpender> GetHighestSpenders();
     }
 }
