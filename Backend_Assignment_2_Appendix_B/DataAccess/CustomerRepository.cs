@@ -357,8 +357,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                             {
                                 try
                                 {
-                                    // Using helper method to select what columns to add
-                                    // Helper method reads from database and return a Customer object
+
                                     CustomerCountry temp = new CustomerCountry();
 
                                     temp.Country = reader.IsDBNull(0) ? "null" : reader.GetString(0);
@@ -395,7 +394,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                 "SELECT [Customer].[CustomerId], Sum([Invoice].[Total]) AS 'Total'" +
                 "FROM [Invoice] " +
                 "INNER JOIN [Customer] ON [Invoice].[CustomerId] = [Customer].[CustomerID]" +
-                "GROUP BY Customer.CustomerId";
+                "GROUP BY [Customer].[CustomerId]";
 
             using (SqlConnection conn = new SqlConnection(SqlHelper.ConnectionString()))
             {
@@ -411,8 +410,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                             {
                                 try
                                 {
-                                    // Using helper method to select what columns to add
-                                    // Helper method reads from database and return a Customer object
+
                                     CustomerSpender temp = new CustomerSpender();
 
                                     temp.Customer = GetCustomer(reader.IsDBNull(0) ? -1 : reader.GetInt32(0));
