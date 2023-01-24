@@ -21,40 +21,18 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
 
             string sql = "SELECT * FROM [Customer]";
 
-            using (SqlConnection conn = new SqlConnection(SqlHelper.ConnectionString()))
+            GetListsParamsFunc<Customer> func = (SqlDataReader reader) =>
             {
+                // Using helper method to select what columns to add
+                // Helper method reads from database and returns a Customer object
+                Customer temp = SqlHelper.GetCustomerWithSpecificColumns(reader);
 
-                using (SqlCommand cmd = new SqlCommand(sql, conn))
-                {
-                    try
-                    {
-                        conn.Open();
+                customers.Add(temp);
 
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                try
-                                {
-                                    // Using helper method to select what columns to add
-                                    // Helper method reads from database and returns a Customer object
-                                    Customer temp = SqlHelper.GetCustomerWithSpecificColumns(reader);
+                return customers;
+            };
 
-                                    customers.Add(temp);
-                                }
-                                catch (Exception e)
-                                {
-                                    Console.WriteLine(e.Message);
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                }
-            }
+            customers = GetLists(func, customers, sql);
 
             return customers;
         }
@@ -343,40 +321,18 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                 "FROM [Customer]" +
                 "GROUP BY [Country]";
 
-            using (SqlConnection conn = new SqlConnection(SqlHelper.ConnectionString()))
+            GetListsParamsFunc<CustomerCountry> func = (SqlDataReader reader) =>
             {
-                using (SqlCommand cmd = new SqlCommand(sql, conn))
-                {
-                    try
-                    {
-                        conn.Open();
+                CustomerCountry temp = new CustomerCountry();
 
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                try
-                                {
+                temp.Country = reader.IsDBNull(0) ? "null" : reader.GetString(0);
+                temp.NumberOfCustomers = reader.IsDBNull(1) ? -1 : reader.GetInt32(1);
+                countries.Add(temp);
 
-                                    CustomerCountry temp = new CustomerCountry();
+                return countries;
+            };
 
-                                    temp.Country = reader.IsDBNull(0) ? "null" : reader.GetString(0);
-                                    temp.NumberOfCustomers = reader.IsDBNull(1) ? -1 : reader.GetInt32(1);
-                                    countries.Add(temp);
-                                }
-                                catch (Exception e)
-                                {
-                                    Console.WriteLine(e.Message);
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                }
-            }
+            countries = GetLists(func, countries, sql);
 
             return countries.OrderByDescending(x => x.NumberOfCustomers).ToList();
         }
@@ -396,6 +352,28 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                 "INNER JOIN [Customer] ON [Invoice].[CustomerId] = [Customer].[CustomerID]" +
                 "GROUP BY [Customer].[CustomerId]";
 
+            GetListsParamsFunc<CustomerSpender> func = (SqlDataReader reader) =>
+            {
+                CustomerSpender temp = new CustomerSpender();
+
+                temp.Customer = GetCustomer(reader.IsDBNull(0) ? -1 : reader.GetInt32(0));
+                temp.Total = reader.IsDBNull(1) ? new Decimal(-1) : reader.GetDecimal(1);
+                spenders.Add(temp);
+
+                return spenders;
+            };
+
+            spenders = GetLists(func, spenders, sql);
+
+            return spenders.OrderByDescending(x => x.Total).ToList();
+        }
+
+
+        public delegate List<T> GetListsParamsFunc<T>(SqlDataReader reader);
+
+        public List<T> GetLists<T>(GetListsParamsFunc<T> function, List<T> list, string sql)
+        {
+
             using (SqlConnection conn = new SqlConnection(SqlHelper.ConnectionString()))
             {
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
@@ -410,12 +388,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                             {
                                 try
                                 {
-
-                                    CustomerSpender temp = new CustomerSpender();
-
-                                    temp.Customer = GetCustomer(reader.IsDBNull(0) ? -1 : reader.GetInt32(0));
-                                    temp.Total = reader.IsDBNull(1) ? new Decimal(-1) : reader.GetDecimal(1);
-                                    spenders.Add(temp);
+                                    list = function(reader);
                                 }
                                 catch (Exception e)
                                 {
@@ -431,7 +404,8 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                 }
             }
 
-            return spenders.OrderByDescending(x => x.Total).ToList();
+            return list;
         }
+
     } // Class
 }

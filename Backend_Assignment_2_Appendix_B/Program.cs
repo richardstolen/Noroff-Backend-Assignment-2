@@ -28,15 +28,15 @@ namespace Backend_Assignment_2_Appendix_B
 
             List<Customer> customers = repo.GetAllCustomers();
 
-            //customers.ForEach(x => Console.WriteLine(x));
+            customers.ForEach(x => Console.WriteLine(x));
 
             //Console.WriteLine(repo.GetCustomer("Robert"));
 
             //List<CustomerCountry> countries = repo.GetNumberOfCustomersInCountry();
             //countries.ForEach(country => Console.WriteLine(country));
 
-            List<CustomerSpender> spenders = repo.GetHighestSpenders();
-            spenders.ForEach(spender => Console.WriteLine(spender));
+            //List<CustomerSpender> spenders = repo.GetHighestSpenders();
+            //spenders.ForEach(spender => Console.WriteLine(spender));
         }
     }
 }
