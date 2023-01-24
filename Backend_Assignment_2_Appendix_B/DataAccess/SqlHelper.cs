@@ -10,7 +10,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
 {
     internal class SqlHelper
     {
-        public static string connectionString()
+        public static string ConnectionString()
         {
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
             builder.DataSource = "DESKTOP-SQ77T5G\\SQLEXPRESS";
@@ -21,7 +21,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
             return builder.ConnectionString;
         }
 
-        public static Customer getCustomerWithSpecificColumns(SqlDataReader reader)
+        public static Customer GetCustomerWithSpecificColumns(SqlDataReader reader)
         {
             Customer customer = new Customer();
 

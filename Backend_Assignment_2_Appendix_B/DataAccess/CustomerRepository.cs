@@ -21,7 +21,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
 
             string sql = "SELECT * FROM [Customer]";
 
-            using (SqlConnection conn = new SqlConnection(SqlHelper.connectionString()))
+            using (SqlConnection conn = new SqlConnection(SqlHelper.ConnectionString()))
             {
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
@@ -38,7 +38,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                                 {
                                     // Using helper method to select what columns to add
                                     // Helper method reads from database and returns a Customer object
-                                    Customer temp = SqlHelper.getCustomerWithSpecificColumns(reader);
+                                    Customer temp = SqlHelper.GetCustomerWithSpecificColumns(reader);
 
                                     customers.Add(temp);
                                 }
@@ -70,7 +70,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
 
             string sql = "SELECT * FROM [Customer] WHERE [CustomerId]=@Id";
 
-            using (SqlConnection conn = new SqlConnection(SqlHelper.connectionString()))
+            using (SqlConnection conn = new SqlConnection(SqlHelper.ConnectionString()))
             {
                 conn.Open();
 
@@ -88,7 +88,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                                 {
                                     // Using helper method to select what columns to add
                                     // Helper method reads from database and return a Customer object
-                                    customer = SqlHelper.getCustomerWithSpecificColumns(reader);
+                                    customer = SqlHelper.GetCustomerWithSpecificColumns(reader);
                                 }
                                 catch (Exception e)
                                 {
@@ -123,7 +123,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                 "SELECT * FROM [Customer]" +
                 "WHERE [FirstName] + ' ' + [LastName] LIKE '%' + @Name + '%'";
 
-            using (SqlConnection conn = new SqlConnection(SqlHelper.connectionString()))
+            using (SqlConnection conn = new SqlConnection(SqlHelper.ConnectionString()))
             {
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
@@ -141,7 +141,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                                 {
                                     // Using helper method to select what columns to add
                                     // Helper method reads from database and return a Customer object
-                                    Customer temp = SqlHelper.getCustomerWithSpecificColumns(reader);
+                                    Customer temp = SqlHelper.GetCustomerWithSpecificColumns(reader);
                                     customers.Add(temp);
                                 }
                                 catch (Exception e)
@@ -177,7 +177,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                 "OFFSET @Offset ROWS " +
                 "FETCH NEXT @Limit ROWS ONLY";
 
-            using (SqlConnection conn = new SqlConnection(SqlHelper.connectionString()))
+            using (SqlConnection conn = new SqlConnection(SqlHelper.ConnectionString()))
             {
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
@@ -196,7 +196,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                                 {
                                     // Using helper method to select what columns to add
                                     // Helper method reads from database and return a Customer object
-                                    Customer temp = SqlHelper.getCustomerWithSpecificColumns(reader);
+                                    Customer temp = SqlHelper.GetCustomerWithSpecificColumns(reader);
                                     customers.Add(temp);
                                 }
                                 catch (Exception e)
@@ -238,7 +238,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                 "INSERT INTO [Customer] ([FirstName], [LastName], [Country], [PostalCode], [Phone], [Email])" +
                 "VALUES (@FirstName, @LastName, @Country, @PostalCode, @Phone, @Email)";
 
-            using (SqlConnection conn = new SqlConnection(SqlHelper.connectionString()))
+            using (SqlConnection conn = new SqlConnection(SqlHelper.ConnectionString()))
             {
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
@@ -296,7 +296,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                 "[PostalCode]=@PostalCode, [Phone]=@Phone, [Email]=@Email " +
                 "WHERE [FirstName] + ' ' + [LastName] = @ExistingName";
 
-            using (SqlConnection conn = new SqlConnection(SqlHelper.connectionString()))
+            using (SqlConnection conn = new SqlConnection(SqlHelper.ConnectionString()))
             {
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
@@ -343,7 +343,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                 "FROM [Customer]" +
                 "GROUP BY [Country]";
 
-            using (SqlConnection conn = new SqlConnection(SqlHelper.connectionString()))
+            using (SqlConnection conn = new SqlConnection(SqlHelper.ConnectionString()))
             {
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
