@@ -24,13 +24,15 @@ namespace Backend_Assignment_2_Appendix_B
 
             //repo.AddCustomer(customer);
 
-            //repo.UpdateCustomer("Per Persen", customer);
+            //repo.UpdateCustomer("Pål Pålsen", customer);
 
             List<Customer> customers = repo.GetAllCustomers();
 
-            customers.ForEach(x => Console.WriteLine(x));
+            //customers.ForEach(x => Console.WriteLine(x));
 
-            //Console.WriteLine(repo.GetCustomer("Robert"));
+            List<Customer> getCustomerName = repo.GetCustomer("Robert");
+            getCustomerName.ForEach(x => Console.WriteLine(x));
+
 
             //List<CustomerCountry> countries = repo.GetNumberOfCustomersInCountry();
             //countries.ForEach(country => Console.WriteLine(country));

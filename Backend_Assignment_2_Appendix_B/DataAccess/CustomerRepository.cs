@@ -21,7 +21,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
 
             string sql = "SELECT * FROM [Customer]";
 
-            GetListsParamsFunc<Customer> func = (SqlDataReader reader) =>
+            GetListsFunc<Customer> func = (SqlDataReader reader) =>
             {
                 // Using helper method to select what columns to add
                 // Helper method reads from database and returns a Customer object
@@ -101,40 +101,21 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                 "SELECT * FROM [Customer]" +
                 "WHERE [FirstName] + ' ' + [LastName] LIKE '%' + @Name + '%'";
 
-            using (SqlConnection conn = new SqlConnection(SqlHelper.ConnectionString()))
+            GetListsWithParametersFunc<Customer> func = (SqlDataReader reader) =>
             {
-                using (SqlCommand cmd = new SqlCommand(sql, conn))
-                {
-                    cmd.Parameters.AddWithValue("Name", name);
+                // Using helper method to select what columns to add
+                // Helper method reads from database and return a Customer object
+                Customer temp = SqlHelper.GetCustomerWithSpecificColumns(reader);
+                customers.Add(temp);
 
-                    try
-                    {
-                        conn.Open();
+                return customers;
+            };
 
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                try
-                                {
-                                    // Using helper method to select what columns to add
-                                    // Helper method reads from database and return a Customer object
-                                    Customer temp = SqlHelper.GetCustomerWithSpecificColumns(reader);
-                                    customers.Add(temp);
-                                }
-                                catch (Exception e)
-                                {
-                                    Console.WriteLine(e.Message);
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                }
-            }
+            SqlCommand cmd = new SqlCommand();
+
+            cmd.Parameters.AddWithValue("Name", name);
+
+            customers = GetListsWithParameters(func, customers, sql, cmd);
 
             return customers;
         }
@@ -155,41 +136,23 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                 "OFFSET @Offset ROWS " +
                 "FETCH NEXT @Limit ROWS ONLY";
 
-            using (SqlConnection conn = new SqlConnection(SqlHelper.ConnectionString()))
+            GetListsWithParametersFunc<Customer> func = (SqlDataReader reader) =>
             {
-                using (SqlCommand cmd = new SqlCommand(sql, conn))
-                {
-                    cmd.Parameters.AddWithValue("Offset", offset);
-                    cmd.Parameters.AddWithValue("Limit", limit);
+                // Using helper method to select what columns to add
+                // Helper method reads from database and returns a Customer object
+                Customer temp = SqlHelper.GetCustomerWithSpecificColumns(reader);
 
-                    try
-                    {
-                        conn.Open();
+                customers.Add(temp);
 
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                try
-                                {
-                                    // Using helper method to select what columns to add
-                                    // Helper method reads from database and return a Customer object
-                                    Customer temp = SqlHelper.GetCustomerWithSpecificColumns(reader);
-                                    customers.Add(temp);
-                                }
-                                catch (Exception e)
-                                {
-                                    Console.WriteLine(e.Message);
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                }
-            }
+                return customers;
+            };
+
+            SqlCommand cmd = new SqlCommand();
+
+            cmd.Parameters.AddWithValue("Offset", offset);
+            cmd.Parameters.AddWithValue("Limit", limit);
+
+            customers = GetListsWithParameters(func, customers, sql, cmd);
 
             return customers;
         }
@@ -321,7 +284,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                 "FROM [Customer]" +
                 "GROUP BY [Country]";
 
-            GetListsParamsFunc<CustomerCountry> func = (SqlDataReader reader) =>
+            GetListsFunc<CustomerCountry> func = (SqlDataReader reader) =>
             {
                 CustomerCountry temp = new CustomerCountry();
 
@@ -352,7 +315,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                 "INNER JOIN [Customer] ON [Invoice].[CustomerId] = [Customer].[CustomerID]" +
                 "GROUP BY [Customer].[CustomerId]";
 
-            GetListsParamsFunc<CustomerSpender> func = (SqlDataReader reader) =>
+            GetListsFunc<CustomerSpender> func = (SqlDataReader reader) =>
             {
                 CustomerSpender temp = new CustomerSpender();
 
@@ -369,9 +332,10 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
         }
 
 
-        public delegate List<T> GetListsParamsFunc<T>(SqlDataReader reader);
+        public delegate List<T> GetListsFunc<T>(SqlDataReader reader);
+        public delegate List<T> GetListsWithParametersFunc<T>(SqlDataReader reader);
 
-        public List<T> GetLists<T>(GetListsParamsFunc<T> function, List<T> list, string sql)
+        public List<T> GetLists<T>(GetListsFunc<T> function, List<T> list, string sql)
         {
 
             using (SqlConnection conn = new SqlConnection(SqlHelper.ConnectionString()))
@@ -381,6 +345,47 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                     try
                     {
                         conn.Open();
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                try
+                                {
+                                    list = function(reader);
+                                }
+                                catch (Exception e)
+                                {
+                                    Console.WriteLine(e.Message);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+            }
+
+            return list;
+        }
+
+        public List<T> GetListsWithParameters<T>(GetListsWithParametersFunc<T> function, List<T> list, string sql, SqlCommand sqlCommand)
+        {
+
+            using (SqlConnection conn = new SqlConnection(SqlHelper.ConnectionString()))
+            {
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    try
+                    {
+                        conn.Open();
+
+                        foreach (SqlParameter para in sqlCommand.Parameters)
+                        {
+                            cmd.Parameters.AddWithValue(para.ParameterName, para.Value);
+                        }
 
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
