@@ -180,6 +180,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\CustomerGenre.cs" />
     <Compile Include="DataAccess\CustomerRepository.cs" />
     <Compile Include="Model\CustomerSpender.cs" />
     <Compile Include="DataAccess\ICustomerRepository.cs" />

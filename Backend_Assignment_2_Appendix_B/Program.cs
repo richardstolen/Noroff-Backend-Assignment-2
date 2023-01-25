@@ -30,13 +30,24 @@ namespace Backend_Assignment_2_Appendix_B
 
             //customers.ForEach(x => Console.WriteLine(x));
 
+            foreach (Customer customer2 in customers)
+            {
+                CustomerGenre genre = repo.GetMostPopularGenre(customer2.CustomerId);
+                Console.WriteLine($"{customer2.CustomerId}: {customer2.FirstName} {customer2.LastName} : {genre.Genres}");
+
+            }
+
             //Console.WriteLine(repo.GetCustomer("Robert"));
 
             //List<CustomerCountry> countries = repo.GetNumberOfCustomersInCountry();
             //countries.ForEach(country => Console.WriteLine(country));
 
-            List<CustomerSpender> spenders = repo.GetHighestSpenders();
-            spenders.ForEach(spender => Console.WriteLine(spender));
+            //List<CustomerSpender> spenders = repo.GetHighestSpenders();
+            //spenders.ForEach(spender => Console.WriteLine(spender));
+
+            CustomerGenre genres = repo.GetMostPopularGenre(2);
+            Console.WriteLine(genres.Genre);
+
         }
     }
 }
