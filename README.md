@@ -44,3 +44,8 @@ should be reused.
 8. [x] Customers who are the highest spenders (total in invoice table is the largest), ordered descending.
 9. [x] For a given customer, their most popular genre (in the case of a tie, display both). Most popular in this context
 means the genre that corresponds to the most tracks from invoices associated to that customer.
+
+
+### Appendix A Class diagram
+
+![alt text](assignment2_sql_diagram.png "Class diagram")
