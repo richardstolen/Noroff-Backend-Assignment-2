@@ -23,7 +23,6 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
 
             using (SqlConnection conn = new SqlConnection(SqlHelper.ConnectionString()))
             {
-
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     try
@@ -55,7 +54,6 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                     }
                 }
             }
-
             return customers;
         }
 
@@ -101,11 +99,8 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                     {
                         Console.WriteLine(e.Message);
                     }
-
-
                 }
             }
-
             return customer;
         }
 
@@ -157,7 +152,6 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                     }
                 }
             }
-
             return customers;
         }
 
@@ -212,7 +206,6 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                     }
                 }
             }
-
             return customers;
         }
 
@@ -410,7 +403,6 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                             {
                                 try
                                 {
-
                                     CustomerSpender temp = new CustomerSpender();
 
                                     temp.Customer = GetCustomer(reader.IsDBNull(0) ? -1 : reader.GetInt32(0));
@@ -430,7 +422,6 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                     }
                 }
             }
-
             return spenders.OrderByDescending(x => x.Total).ToList();
         }
 
@@ -449,7 +440,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                 "INNER JOIN [Genre] ON [Genre].[GenreId] = [Track].[GenreId]" +
                 "WHERE [Customer].[CustomerId] = @CustomerId " +
                 "GROUP BY Genre.Name " +
-                "ORDER BY 'count' ASC";
+                "ORDER BY 'count' DESC";
 
             using (SqlConnection conn = new SqlConnection(SqlHelper.ConnectionString()))
             {
@@ -468,8 +459,11 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                                 try
                                 {
                                     customerGenre.Customer = customer;
+
                                     string genre = reader.IsDBNull(0) ? "NULL" : reader.GetString(0);
-                                    customerGenre.Genres.Add(genre);
+                                    int count = reader.IsDBNull(1) ? -1 : reader.GetInt32(1);
+
+                                    customerGenre.Genres.Add(genre, count);
                                 }
                                 catch (Exception e)
                                 {
@@ -485,12 +479,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                 }
             }
 
-
             return customerGenre;
         }
-
-
-
-
     } // Class
 }

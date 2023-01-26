@@ -33,7 +33,7 @@ namespace Backend_Assignment_2_Appendix_B
             foreach (Customer customer2 in customers)
             {
                 CustomerGenre genre = repo.GetMostPopularGenre(customer2.CustomerId);
-                Console.WriteLine($"{customer2.CustomerId}: {customer2.FirstName} {customer2.LastName} : {genre.Genres}");
+                Console.WriteLine(genre.ToString());
 
             }
 
@@ -45,9 +45,9 @@ namespace Backend_Assignment_2_Appendix_B
             //List<CustomerSpender> spenders = repo.GetHighestSpenders();
             //spenders.ForEach(spender => Console.WriteLine(spender));
 
-            CustomerGenre genres = repo.GetMostPopularGenre(2);
-            Console.WriteLine(genres.Genre);
 
+            // genres.Genres.ForEach(x => Console.WriteLine(x));
+            Console.ReadKey();
         }
     }
 }
