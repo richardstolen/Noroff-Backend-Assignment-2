@@ -425,6 +425,12 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
             return spenders.OrderByDescending(x => x.Total).ToList();
         }
 
+        /// <summary>
+        /// Method to get the most popular genres for a given Customer. 
+        /// Returns two genres if there is a tie
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>A CustomerGenre object</returns>
         public CustomerGenre GetMostPopularGenre(int id)
         {
             CustomerGenre customerGenre = new CustomerGenre();
