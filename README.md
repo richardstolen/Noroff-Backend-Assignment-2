@@ -6,7 +6,7 @@ Contributors: Richard Stølen and Ahmad Khodabaks
 
 Contains two branches:
 - main
-    - - Contains the main implementation for Appendix B, the main program has a test run with all the methods.   
+    - Contains the main implementation for Appendix B, the main program has a test run with all the methods.   
 - richard-experimental-delegates
     - Experimental branch with delegates to try to limit all the using cases when creating a new SqlConnections and such.
 
