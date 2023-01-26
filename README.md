@@ -4,6 +4,11 @@ This assignment is about creating a database and accessing a database.
 
 Contributors: Richard Stølen and Ahmad Khodabaks
 
+Appendix A:
+Has a folder with all the individual scripts, and also a script 10_completeScript.sql that contains everything that can be run with SSMS. There is also a main program in the solution that goes through the sqlscripts folder and runs every script. It works fine, but needs to change to the local DB Datasource to work.
+
+Appendix B: 
+
 Contains two branches:
 - main
     - Contains the main implementation for Appendix B, the main program has a test run with all the methods.   
