@@ -29,7 +29,7 @@ namespace Backend_Assignment_2_Appendix_B.Model
         }
         public override string ToString()
         {
-            return $"{Customer.FirstName} {Customer.LastName}: {PrintGenres()}\n";
+            return $"{Customer.FirstName} {Customer.LastName}: {PrintGenres()}";
         }
     }
 }
