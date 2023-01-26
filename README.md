@@ -7,7 +7,7 @@ Contributors: Richard Stølen and Ahmad Khodabaks
 Appendix A:
 Has a folder with all the individual scripts, and also a script 10_completeScript.sql that contains everything that can be run with SSMS. There is also a main program in the solution that goes through the sqlscripts folder and runs every script. It works fine, but needs to change to the local DB Datasource to work.
 
-Appendix B: 
+Appendix B: test
 
 Contains two branches:
 - main
