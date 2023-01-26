@@ -5,6 +5,10 @@ This assignment is about creating a database and accessing a database.
 Contributors: Richard Stølen and Ahmad Khodabaks
 
 Contains two branches:
+- main
+- richard-experimental-delegates
+
+
     - main
         - Contains the main implementation for Appendix B, the main program has a test run with all the methods.
     - richard-experimental-delegates
