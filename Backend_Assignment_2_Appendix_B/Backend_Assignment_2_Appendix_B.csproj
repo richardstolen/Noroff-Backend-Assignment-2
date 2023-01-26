@@ -181,6 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccess\CustomerRepository.cs" />
+    <Compile Include="Model\CustomerGenre.cs" />
     <Compile Include="Model\CustomerSpender.cs" />
     <Compile Include="DataAccess\ICustomerRepository.cs" />
     <Compile Include="DataAccess\SqlHelper.cs" />

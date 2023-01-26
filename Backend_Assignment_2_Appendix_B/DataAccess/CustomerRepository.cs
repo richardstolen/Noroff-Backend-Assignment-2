@@ -331,6 +331,63 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
             return spenders.OrderByDescending(x => x.Total).ToList();
         }
 
+        public CustomerGenre GetMostPopularGenre(int id)
+        {
+            CustomerGenre customerGenre = new CustomerGenre();
+
+            Customer customer = GetCustomer(id);
+
+            string sql =
+                "SELECT Genre.Name, COUNT(Genre.Name) AS 'count'" +
+                "FROM [Customer]" +
+                "INNER JOIN [Invoice] ON [Invoice].[CustomerId] = [Customer].[CustomerId]" +
+                "INNER JOIN [InvoiceLine] ON [InvoiceLine].[InvoiceId] = [Invoice].[InvoiceId]" +
+                "INNER JOIN [Track] ON [Track].[TrackId] = [InvoiceLine].[TrackId]" +
+                "INNER JOIN [Genre] ON [Genre].[GenreId] = [Track].[GenreId]" +
+                "WHERE [Customer].[CustomerId] = @CustomerId " +
+                "GROUP BY Genre.Name " +
+                "ORDER BY 'count' DESC";
+
+            using (SqlConnection conn = new SqlConnection(SqlHelper.ConnectionString()))
+            {
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    try
+                    {
+                        conn.Open();
+
+                        cmd.Parameters.AddWithValue("CustomerId", id);
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                try
+                                {
+                                    customerGenre.Customer = customer;
+
+                                    string genre = reader.IsDBNull(0) ? "NULL" : reader.GetString(0);
+                                    int count = reader.IsDBNull(1) ? -1 : reader.GetInt32(1);
+
+                                    customerGenre.Genres.Add(genre, count);
+                                }
+                                catch (Exception e)
+                                {
+                                    Console.WriteLine(e.Message);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+            }
+
+            return customerGenre;
+        }
+
 
         public delegate List<T> GetListsFunc<T>(SqlDataReader reader);
         public delegate List<T> GetListsWithParametersFunc<T>(SqlDataReader reader);
