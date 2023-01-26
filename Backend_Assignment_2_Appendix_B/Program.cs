@@ -41,7 +41,7 @@ namespace Backend_Assignment_2_Appendix_B
 
 
             Console.WriteLine("\n********************************************************************************************************************\n " +
-               "2.4 Read a page of customers by offset and limit\n");
+               "2.4 Read a page of customers by offset=5 and limit=10\n");
 
             repo.GetCustomerPage(5, 10).ForEach(c => Console.WriteLine(c));
 
