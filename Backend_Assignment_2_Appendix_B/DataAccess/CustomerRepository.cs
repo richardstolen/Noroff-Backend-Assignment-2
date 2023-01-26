@@ -332,6 +332,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
         }
 
         public CustomerGenre GetMostPopularGenre(int id)
+
         {
             CustomerGenre customerGenre = new CustomerGenre();
 
@@ -347,6 +348,7 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
                 "WHERE [Customer].[CustomerId] = @CustomerId " +
                 "GROUP BY Genre.Name " +
                 "ORDER BY 'count' DESC";
+
 
             using (SqlConnection conn = new SqlConnection(SqlHelper.ConnectionString()))
             {
@@ -387,6 +389,43 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
 
             return customerGenre;
         }
+
+        //List<Customer> customers = new List<Customer>();
+
+        //string sql =
+        //    "SELECT * FROM [Customer] " +
+        //    "ORDER BY [CustomerId]" +
+        //    "OFFSET @Offset ROWS " +
+        //    "FETCH NEXT @Limit ROWS ONLY";
+
+        //GetListsWithParametersFunc<Customer> func = (SqlDataReader reader) =>
+        //{
+        //    // Using helper method to select what columns to add
+        //    // Helper method reads from database and returns a Customer object
+        //    Customer temp = SqlHelper.GetCustomerWithSpecificColumns(reader);
+
+        //    customers.Add(temp);
+
+        //    return customers;
+        //};
+
+        //SqlCommand cmd = new SqlCommand();
+
+        //cmd.Parameters.AddWithValue("Offset", offset);
+        //    cmd.Parameters.AddWithValue("Limit", limit);
+
+        //    customers = GetListsWithParameters(func, customers, sql, cmd);
+
+        //    return customers;
+
+
+
+
+
+
+
+
+
 
 
         public delegate List<T> GetListsFunc<T>(SqlDataReader reader);

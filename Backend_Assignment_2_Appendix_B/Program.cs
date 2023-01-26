@@ -28,10 +28,13 @@ namespace Backend_Assignment_2_Appendix_B
 
             List<Customer> customers = repo.GetAllCustomers();
 
-            //customers.ForEach(x => Console.WriteLine(x));
+            foreach (var item in customers)
+            {
+                Console.WriteLine(repo.GetMostPopularGenre(item.CustomerId));
+            }
 
-            List<Customer> getCustomerName = repo.GetCustomer("Robert");
-            getCustomerName.ForEach(x => Console.WriteLine(x));
+            //List<Customer> getCustomerName = repo.GetCustomer("Robert");
+            //getCustomerName.ForEach(x => Console.WriteLine(x));
 
 
             //List<CustomerCountry> countries = repo.GetNumberOfCustomersInCountry();
