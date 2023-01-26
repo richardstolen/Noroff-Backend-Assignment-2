@@ -10,6 +10,10 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
 {
     internal class SqlHelper
     {
+        /// <summary>
+        /// Method to get the connection string for given database and catalog
+        /// </summary>
+        /// <returns>A connection string</returns>
         public static string ConnectionString()
         {
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
@@ -21,6 +25,11 @@ namespace Backend_Assignment_2_Appendix_B.DataAccess
             return builder.ConnectionString;
         }
 
+        /// <summary>
+        /// Helper method for getting the values that are required for the Customer object
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns>Customer object</returns>
         public static Customer GetCustomerWithSpecificColumns(SqlDataReader reader)
         {
             Customer customer = new Customer();
