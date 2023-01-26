@@ -9,6 +9,11 @@ namespace Backend_Assignment_2_Appendix_B.Model
         public Customer Customer { get; set; }
         public Dictionary<string, int> Genres { get; set; } = new Dictionary<string, int>();
 
+        /// <summary>
+        /// Prints the genre with the highest count.
+        /// If there is a tie between the top two, both are printed
+        /// </summary>
+        /// <returns></returns>
         public string PrintGenres()
         {
             string result = string.Empty;
